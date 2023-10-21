@@ -1,0 +1,7 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--disable=E1102","--disable=E1101","--disable=C"], 
+    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": false,
+    "python.jediEnabled": true,
+}

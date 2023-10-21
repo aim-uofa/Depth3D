@@ -1,0 +1,11 @@
+work_dirs
+show_dirs
+*__pycache__*
+test_dataloader_*
+ckpt_files
+tensorboard_all
+input_imgs
+*.pth
+*.pt
+weights
+pretrained_weights
