@@ -2,45 +2,49 @@
 
 ## Install
 ```bash
-conda create -n metricdepth python=3.7
-conda activate metricdepth
-pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 torchaudio==0.10.0 -f https://download.pytorch.org/whl/torch_stable.html
+conda create -n Depth3D python=3.7
+conda activate Depth3D
+pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 pip install -U openmim
 mim install mmengine
 mim install "mmcv-full==1.3.17"
-# pip install "mmsegmentation==0.19.0"
-# pip install xformers==0.0.16
+pip install yapf==0.40.1
 ```
 
 ### For 40 Series GPUs
 ```bash
-conda create -n metricdepth python=3.8
-conda activate metricdepth
-pip3 install torch torchvision torchaudio
+conda create -n Depth3D python=3.8
+conda activate Depth3D
+pip install torch==2.0.0 torchvision==0.15.1
 pip install -r requirements.txt
 pip install -U openmim
 mim install mmengine
 mim install "mmcv-full==1.7.1"
-# pip install "mmsegmentation==0.30.0"
-pip install numpy==1.20.0 # or pip install numpy==1.21.6
-pip install scikit-image==0.18.0
-# pip install xformers==0.0.18
+pip install yapf==0.40.1
 ```
 
 
 
 # Dataset Components
+We offer the test split of datasets with the Baidu Netdisk share link.
+
 ## Data Structure
+We use the *_annotation.json files to store the camera intrinsic information and the paths of rgb, depth, etc. The data structure is as follows:
+
+```
 - Taskonomy
 	- Taskonomy
+		- (optional) meta # save the pickle files, see 'Format 1' for details
 		- rgb
 		- depth
 		- (optional) sem
 		- (optional) normal
-
+	- test_annotation.json # test annotation file
+	- train_annotation.json # train annotation file
+```
 ## Format 1
-The format of annotation.json files：
+The format of *_annotation.json files：
 ```
 dict(
 	'files': [
@@ -66,7 +70,7 @@ dict(
 ```
 
 ## Format 2
-The format of annotation.json files：
+The format of *_annotation.json files：
 ```
 dict(
 	'files': [
@@ -78,8 +82,10 @@ dict(
 )
 ```
 
+# Reproduction of Technical Report
+Run scripts of ```Depth3D/scripts/technical_report```. For example. if you would like to reproduce the Table 3, run this commmand: ```python scripts/technical_report/run_table3.py```. It will take hours of time to output the final results. See ```scripts/technical_report/README_reproduction.md``` for details
 
-# Evaluation with Dataloader
+# Evaluation of a Specific Dataset with Dataloader
 ```bash
 source scripts/test/beit/test_beit_nyu.sh # change the config file if required.
 ```
@@ -99,13 +105,38 @@ if you would like to evaluate on a new datasets:
 		- check_datasets.py
 		- pretrained_weight.py # pretrained weight path of backbone.
 		- public_datasets.py # path of annotations of diverse datasets.
+	- datasets
+		- ibims
+			- ibims
+			- test_annotation.json
+		- diode
+			- diode
+			- test_annotation.json
+			- test_annotation_indoor.json
+			- test_annotation_outdoor.json
+		- ETH3D
+			- ETH3D
+			- test_annotations.json
+		...
+	- demo_data # demo data of technical report.
 	- mono
-		- configs # configs of training and evaluation
-		- datasets # torch.utils.data.Dataset
-		- model # depth models
-		- scripts # useless here
+		- configs # configs of training and evaluation.
+		- datasets # torch.utils.data.Dataset.
+		- model # depth models.
+		- tools
 		- utils
-	- scrips
 	- other_tools
+	- pretrained_weights # pretrained weights, used for training depth models.
+	- scripts # scripts of training and testing
+		- ablation 
+			- test
+			- train
+		- technical_report # scripts to reproduce the results of technical report.
+		- test
+		- train
+	- show_dirs # output folder of inference.
+	- weights # place our trained depth models here.
+	- weights_ablation # place our released depth models of ablation study here.
+	- work_dirs # output folder of training.
 ```
 

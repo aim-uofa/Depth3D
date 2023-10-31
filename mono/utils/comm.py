@@ -8,7 +8,7 @@ import socket
 from mmcv.utils import collect_env as collect_base_env
 from mmcv.utils import get_git_hash
 #import mono.mmseg as mmseg
-import mmseg
+# import mmseg
 import time
 import datetime
 import logging
@@ -50,12 +50,12 @@ def _is_free_port(port):
         return all(s.connect_ex((ip, port)) != 0 for ip in ips)
 
 
-def collect_env():
-    """Collect the information of the running environments."""
-    env_info = collect_base_env()
-    env_info['MMSegmentation'] = f'{mmseg.__version__}+{get_git_hash()[:7]}'
+# def collect_env():
+#     """Collect the information of the running environments."""
+#     env_info = collect_base_env()
+#     env_info['MMSegmentation'] = f'{mmseg.__version__}+{get_git_hash()[:7]}'
 
-    return env_info
+#     return env_info
 
 def init_env(launcher, cfg):
     """Initialize distributed training environment.

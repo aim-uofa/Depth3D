@@ -35,6 +35,7 @@ def parse_args():
     parser.add_argument('--options', nargs='+', action=DictAction, help='custom options')
     parser.add_argument('--launcher', choices=['None', 'pytorch', 'slurm', 'mpi', 'ror'], default='slurm', help='job launcher')
     parser.add_argument('--test_anno_path', default='./test_images/image_sunny', type=str, help='the path of test data')
+    parser.add_argument('--data_root', type=str, help='the data_root of test annotation path', default='')
     args = parser.parse_args()
     return args
 
@@ -91,7 +92,7 @@ def main(args):
     if not os.path.isabs(test_anno_path):
         test_anno_path = osp.join(CODE_SPACE, test_anno_path)
 
-    test_data = load_from_annos(test_anno_path)
+    test_data = load_from_annos(test_anno_path, args.data_root)
     
     """
     # NOTE: you can also change rgb_paths, intrinsic, depth_paths, and depth_scale here straightforwardly. Here is an example of scannet

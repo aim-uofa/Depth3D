@@ -48,92 +48,64 @@ losses=dict(
 
 # data configs, some similar data are merged together
 data_array = [
-    # # group 4 pseudo 
-    # [
-    #     dict(UASOL='UASOL_dataset'),
-    # ],
-
-    # [
-    #     dict(Cityscapes='Cityscapes_dataset'),
-    # ],
-    
-    # [
-    #     dict(DIML='DIML_dataset'),
-    # ],
-    
-    # [
-    #     dict(KITTI='KITTI_dataset'),
-    # ],
-    
-    # [
-    #     dict(Lyft='Lyft_dataset'),
-    # ],
-    
-    # [
-    #     dict(DDAD='DDAD_dataset'),
-    # ],
-    
-    # [
-    #     dict(Pandaset='Pandaset_dataset'),
-    # ],
-    
-    # [
-    #     dict(Waymo='Waymo_dataset'),
-    # ],
-
-    # [
-    #     dict(Argovers2='Argovers2_dataset'),
-    # ],
-
-    # [
-    #     dict(Mapillary_PSD='MapillaryPSD_dataset'),
-    # ],
-
-    # # group 7
-    # [
-    #     dict(Taskonomy='Taskonomy_dataset')  
-    # ],
-
-    # # group 1
-    # [
-    #     dict(DSEC='DSEC_dataset'),
-    # ],
-
-    # [
-    #     dict(DIODE='DIODE_dataset'),
-    # ],
-    
-    # [
-    #     dict(Hypersim='Hypersim_dataset'),
-    # ],
-
-    # [
-    #     dict(Tartanair='Tartanair_dataset'),
-    # ],
-    
-    # [
-    #     dict(GraspNet='GraspNet_dataset'),
-    # ],
-
-    # [
-    #     dict(BlendedMVS='BlendedMVS_dataset'),
-    # ],
-
-    # [
-    #     dict(AVD='AVD_dataset'),
-    # ],
-
+    # group 4 pseudo 
     [
-        dict(NYU='NYU_dataset'),
+        dict(UASOL='UASOL_dataset'),
+        dict(Cityscapes='Cityscapes_dataset'),
+        dict(DIML='DIML_dataset'),
+        dict(KITTI='KITTI_dataset'),
     ],
 
-    # [
-    #     dict(TUM='TUM_dataset'),
-    # ],
+    [
+        dict(Argovers2='Argovers2_dataset'),
+    ],
 
-    # [
-    #     dict(Scannet='Scannet_dataset'),
-    # ],
+    [
+        dict(Mapillary_PSD='MapillaryPSD_dataset'),
+    ],
+
+    # group 7
+    [
+        dict(Taskonomy='Taskonomy_dataset')  
+    ],
+
+    # group 1
+    [
+        dict(Lyft='Lyft_dataset'),
+        dict(DDAD='DDAD_dataset'),
+        dict(Pandaset='Pandaset_dataset'),
+        dict(Waymo='Waymo_dataset'),
+        dict(DSEC='DSEC_dataset'),
+        # dict(DrivingStereo='DrivingStereo_dataset'),
+    ],
+
+    # # [
+    # #     dict(CO3D='CO3D_dataset'),
+    # # ],
+
+    [
+        dict(DIODE='DIODE_dataset'),
+    ],
+    
+    [
+        dict(Tartanair='Tartanair_dataset'),
+        dict(Hypersim='Hypersim_dataset'),
+    ],
+
+    [
+        dict(GraspNet='GraspNet_dataset'),
+        dict(BlendedMVS='BlendedMVS_dataset'),
+    ],
+
+    [
+        dict(AVD='AVD_dataset'),
+        dict(NYU='NYU_dataset'),
+        dict(TUM='TUM_dataset'),
+    ],
+
+    [
+        dict(Scannet='Scannet_dataset'),
+    ],
 ]
 
 # configs of the canonical space
@@ -170,11 +142,8 @@ lr_config = dict(policy='poly',
                  warmup_ratio=1e-6,
                  power=0.9, min_lr=1e-8, by_epoch=False)
 
-# batchsize_per_gpu = 16
-# thread_per_gpu = 12
-
-batchsize_per_gpu = 2
-thread_per_gpu = 2
+batchsize_per_gpu = 16
+thread_per_gpu = 12
 
 Argovers2_dataset=dict(
     data = dict(
@@ -182,9 +151,13 @@ Argovers2_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -233,9 +206,13 @@ Cityscapes_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -283,9 +260,13 @@ DIML_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -333,9 +314,13 @@ Lyft_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -383,9 +368,13 @@ DDAD_dataset=dict(
         train=dict(
             pipeline=[# dict(type='BGR2RGB'), # NOTE: check RGB img
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -449,9 +438,13 @@ DSEC_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -499,9 +492,13 @@ MapillaryPSD_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -549,9 +546,13 @@ Pandaset_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -599,9 +600,13 @@ Taskonomy_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -649,9 +654,13 @@ UASOL_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -699,9 +708,13 @@ Waymo_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -749,9 +762,13 @@ AVD_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -799,9 +816,13 @@ BlendedMVS_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -849,9 +870,13 @@ DIODE_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -899,9 +924,13 @@ GraspNet_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -949,9 +978,13 @@ Hypersim_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -999,9 +1032,13 @@ KITTI_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
-                            prob=0.5,
-                            ratio_range=(0.85, 1.15),
+                            prob=1.0,
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1049,9 +1086,13 @@ NYU_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1099,9 +1140,13 @@ Tartanair_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1149,9 +1194,13 @@ TUM_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1199,9 +1248,13 @@ Scannet_dataset=dict(
         train=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(384, 384),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
                     dict(type='RandomResize',
                             prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            ratio_range=(1.0, 1.0),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs

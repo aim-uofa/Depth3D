@@ -30,17 +30,18 @@ _base_=['../_base_/losses/all_losses.py',
        
        ]
 
+
 # loss method
 losses=dict(
     decoder_losses=[
-        dict(type='VNLoss', sample_ratio=0.2, loss_weight=1.0),
+        dict(type='VNLoss', loss_weight=1.0, sample_ratio=0.2),
         dict(type='L1Loss', loss_weight=1.0),
-        dict(type='SkyRegularizationLoss', loss_weight=0.01, sample_ratio=0.2, regress_value=250),
-        dict(type='HDNRandomLoss', loss_weight=2, random_num=10),
-        dict(type='HDSNRandomLoss', loss_weight=2, random_num=20, batch_limit=4),
+        dict(type='SkyRegularizationLoss', loss_weight=0.01, sample_ratio=0.2, regress_value=250, disp_pred=True),
+        dict(type='HDNRandomLoss', loss_weight=1, random_num=10),
+        dict(type='HDSNRandomLoss', loss_weight=1, random_num=20, batch_limit=4),
         dict(type='EdgeguidedNormalLoss', loss_weight=1),
-        dict(type='PWNPlanesLoss', loss_weight=1),
-        dict(type='ConfidenceLoss', loss_weight=1),
+        dict(type='PWNPlanesLoss', loss_weight=2),
+        # dict(type='ConfidenceLoss', loss_weight=1),
 ],
 )
 
@@ -143,6 +144,7 @@ data_basic=dict(
     depth_range=(0, 1),
     depth_normalize=(0.1, 150),
     crop_size = (544, 1216),
+    disp_pred = False,
 ) 
 
 # online evaluation
@@ -199,7 +201,7 @@ Argovers2_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the training pipeline
@@ -211,7 +213,7 @@ Argovers2_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -226,7 +228,6 @@ Cityscapes_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=0.5,
                             ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
@@ -250,7 +251,7 @@ Cityscapes_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the training pipeline
@@ -262,7 +263,7 @@ Cityscapes_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -276,7 +277,6 @@ DIML_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=0.5,
                             ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
@@ -300,7 +300,7 @@ DIML_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the training pipeline
@@ -312,7 +312,7 @@ DIML_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -350,7 +350,7 @@ Lyft_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the training pipeline
@@ -362,7 +362,7 @@ Lyft_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -400,7 +400,7 @@ DDAD_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -412,7 +412,7 @@ DDAD_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -427,7 +427,7 @@ DDAD_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_ratio = 1.0,
             sample_size = 100,
@@ -442,7 +442,6 @@ DSEC_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=0.5,
                             ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
@@ -466,7 +465,7 @@ DSEC_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -478,7 +477,7 @@ DSEC_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -516,7 +515,7 @@ MapillaryPSD_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -528,7 +527,7 @@ MapillaryPSD_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 1,
         ),
@@ -566,7 +565,7 @@ Pandaset_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -578,7 +577,7 @@ Pandaset_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -592,57 +591,6 @@ Taskonomy_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
-                            is_lidar=True),
-                    dict(type='RandomCrop', 
-                        crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
-                        crop_type='rand', 
-                        ignore_label=-1, 
-                        padding=[0, 0, 0]),
-                    dict(type='RandomEdgeMask',
-                            mask_maxsize=50,
-                            prob=0.2,
-                            rgb_invalid=[0,0,0],
-                            label_invalid=-1,), 
-                    dict(type='RandomHorizontalFlip', 
-                        prob=0.4),
-                    dict(type='PhotoMetricDistortion', 
-                        to_gray_prob=0.1,
-                        distortion_prob=0.1,),
-                    dict(type='Weather',
-                        prob=0.05),
-                    dict(type='RandomBlur', 
-                        prob=0.05),
-                    dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
-                    dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
-                    ],),
-
-        # configs for the val pipeline
-        val=dict(
-            pipeline=[dict(type='BGR2RGB'),
-                    dict(type='LableScaleCanonical'),
-                    dict(type='ResizeKeepRatio', 
-                       resize_size=(544, 1216),
-                       ignore_label=-1, 
-                       padding=[0, 0, 0]),
-                    dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
-                    ],
-            sample_size = 100,
-        ),
-    )
-)
-
-UASOL_dataset=dict(
-    data = dict(
-        # configs for the training pipeline
-        train=dict(
-            pipeline=[dict(type='BGR2RGB'),
-                    dict(type='LableScaleCanonical'),
-                    dict(type='RandomResize',
-                            prob=0.5,
                             ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
@@ -666,7 +614,7 @@ UASOL_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -678,7 +626,56 @@ UASOL_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    ],
+            sample_size = 100,
+        ),
+    )
+)
+
+UASOL_dataset=dict(
+    data = dict(
+        # configs for the training pipeline
+        train=dict(
+            pipeline=[dict(type='BGR2RGB'),
+                    dict(type='LableScaleCanonical'),
+                    dict(type='RandomResize',
+                            ratio_range=(0.85, 1.15),
+                            is_lidar=True),
+                    dict(type='RandomCrop', 
+                        crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
+                        crop_type='rand', 
+                        ignore_label=-1, 
+                        padding=[0, 0, 0]),
+                    dict(type='RandomEdgeMask',
+                            mask_maxsize=50,
+                            prob=0.2,
+                            rgb_invalid=[0,0,0],
+                            label_invalid=-1,), 
+                    dict(type='RandomHorizontalFlip', 
+                        prob=0.4),
+                    dict(type='PhotoMetricDistortion', 
+                        to_gray_prob=0.1,
+                        distortion_prob=0.1,),
+                    dict(type='Weather',
+                        prob=0.05),
+                    dict(type='RandomBlur', 
+                        prob=0.05),
+                    dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
+                    dict(type='ToTensor'),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    ],),
+
+        # configs for the val pipeline
+        val=dict(
+            pipeline=[dict(type='BGR2RGB'),
+                    dict(type='LableScaleCanonical'),
+                    dict(type='ResizeKeepRatio', 
+                       resize_size=(544, 1216),
+                       ignore_label=-1, 
+                       padding=[0, 0, 0]),
+                    dict(type='ToTensor'),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -716,7 +713,7 @@ Waymo_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -728,7 +725,7 @@ Waymo_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -766,7 +763,7 @@ AVD_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -778,7 +775,7 @@ AVD_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -792,8 +789,8 @@ BlendedMVS_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -816,7 +813,7 @@ BlendedMVS_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -828,7 +825,7 @@ BlendedMVS_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -842,8 +839,8 @@ DIODE_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -866,7 +863,7 @@ DIODE_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -878,7 +875,7 @@ DIODE_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -892,8 +889,8 @@ GraspNet_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -916,7 +913,7 @@ GraspNet_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -928,7 +925,7 @@ GraspNet_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -942,8 +939,8 @@ Hypersim_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -966,7 +963,7 @@ Hypersim_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -978,7 +975,7 @@ Hypersim_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -1016,7 +1013,7 @@ KITTI_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -1028,7 +1025,7 @@ KITTI_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -1042,8 +1039,8 @@ NYU_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1066,7 +1063,7 @@ NYU_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -1078,7 +1075,7 @@ NYU_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -1092,8 +1089,8 @@ Tartanair_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1116,7 +1113,7 @@ Tartanair_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -1128,7 +1125,7 @@ Tartanair_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -1142,8 +1139,8 @@ TUM_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1166,7 +1163,7 @@ TUM_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -1178,7 +1175,7 @@ TUM_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),
@@ -1192,8 +1189,8 @@ Scannet_dataset=dict(
             pipeline=[dict(type='BGR2RGB'),
                     dict(type='LableScaleCanonical'),
                     dict(type='RandomResize',
-                            prob=1.0,
-                            ratio_range=(1.0, 3.0),
+                            prob=0.5,
+                            ratio_range=(0.85, 1.15),
                             is_lidar=True),
                     dict(type='RandomCrop', 
                         crop_size=(0,0), # crop_size will be overwriteen by data_basic configs
@@ -1216,7 +1213,7 @@ Scannet_dataset=dict(
                         prob=0.05),
                     dict(type='RGBCompresion', prob=0.1, compression=(0, 40)),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],),
 
         # configs for the val pipeline
@@ -1228,7 +1225,7 @@ Scannet_dataset=dict(
                        ignore_label=-1, 
                        padding=[0, 0, 0]),
                     dict(type='ToTensor'),
-                    dict(type='Normalize',  mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
+                    dict(type='Normalize', mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375]),
                     ],
             sample_size = 100,
         ),

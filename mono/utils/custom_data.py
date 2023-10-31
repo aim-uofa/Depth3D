@@ -1,26 +1,31 @@
 import glob
 import os
+import os.path as osp
 import json
 import cv2
 
-def load_from_annos(anno_path):
+def load_from_annos(anno_path, data_root=''):
     with open(anno_path, 'r') as f:
         annos = json.load(f)['files']
 
     datas = []
     for i, anno in enumerate(annos):
-        rgb = anno['rgb']
-        depth = anno['depth'] if 'depth' in anno else None
+        rgb = osp.join(data_root, anno['rgb'])
+        depth = osp.join(data_root, anno['depth']) if (('depth' in anno) and (anno['depth'] is not None)) else None
+        depth_mask = osp.join(data_root, anno['depth_mask']) if (('depth_mask' in anno) and (anno['depth_mask'] is not None)) else None
+        norm = osp.join(data_root, anno['norm']) if (('norm' in anno) and (anno['norm'] is not None)) else None
         depth_scale = anno['depth_scale'] if 'depth_scale' in anno else 1.0
         intrinsic = anno['cam_in'] if 'cam_in' in anno else None
 
         data_i = {
             'rgb': rgb,
             'depth': depth,
+            'depth_mask': depth_mask,
+            'norm': norm,
             'depth_scale': depth_scale,
             'intrinsic': intrinsic,
             'filename': os.path.basename(rgb),
-            'folder': rgb.split('/')[-3],
+            'folder': anno['rgb'].split('/')[0],
         }
         datas.append(data_i)
     return datas

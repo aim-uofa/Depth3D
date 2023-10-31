@@ -20,7 +20,7 @@ import numpy as np
 import logging
 
 from mono.datasets.distributed_sampler import log_canonical_transfer_info
-from mono.utils.comm import init_env, collect_env
+from mono.utils.comm import init_env
 from mono.utils.logger import setup_logger
 from mono.utils.database import load_data_info, reset_ckpt_path
 from mono.utils.do_train import do_train
@@ -134,13 +134,13 @@ def main(args):
     # init the meta dict to record some important information such as
     # environment info and seed, which will be logged
     meta = dict()
-    # log env info
-    env_info_dict = collect_env()
-    env_info = '\n'.join([f'{k}: {v}' for k, v in env_info_dict.items()])
-    dash_line = '-' * 60 + '\n'
-    logger.info('Environment info:\n' + dash_line + env_info + '\n' +
-                dash_line)
-    meta['env_info'] = env_info
+    # # log env info
+    # env_info_dict = collect_env()
+    # env_info = '\n'.join([f'{k}: {v}' for k, v in env_info_dict.items()])
+    # dash_line = '-' * 60 + '\n'
+    # logger.info('Environment info:\n' + dash_line + env_info + '\n' +
+    #             dash_line)
+    # meta['env_info'] = env_info
 
     # log some basic info
     logger.info(f'Config:\n{cfg.pretty_text}')

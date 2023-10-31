@@ -21,7 +21,8 @@
             "console": "integratedTerminal",
             "env": {"CUDA_VISIBLE_DEVICES":"3", "PYTHONPATH":"${workspaceFolder}"},
             "args": [
-                "mono/configs/DPTHead/debug.py",
+                "mono/configs/DPTHead/beitl16_512.py",
+                "--load-from", "pretrained_weights/dpt_beit_large_512.pt",
                 "--launcher", "slurm",
                 "--use-tensorboard",
             ],

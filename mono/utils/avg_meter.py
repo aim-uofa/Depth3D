@@ -501,7 +501,7 @@ def get_ratio_err(pred: torch.tensor,
     b, c, h, w = pred.shape
     mask = mask.to(torch.float)
     t_m = target * mask
-    p_m = pred
+    p_m = pred * mask
 
     gt_pred = t_m / (p_m + 1e-10)
     pred_gt = p_m / (t_m + 1e-10)
@@ -509,6 +509,7 @@ def get_ratio_err(pred: torch.tensor,
     pred_gt = pred_gt.reshape((b, c, -1))
     gt_pred_gt = torch.cat((gt_pred, pred_gt), axis=1)
     ratio_max = torch.amax(gt_pred_gt, axis=1)
+    ratio_max[~mask.reshape(b, -1).bool()] = 1e8 # invalid ratio_max, set to 1e-8
 
     delta_1_sum = torch.sum((ratio_max < 1.25), dim=1) # [b, ]
     delta_2_sum = torch.sum((ratio_max < 1.25 ** 2), dim=1) # [b, ]
@@ -516,6 +517,7 @@ def get_ratio_err(pred: torch.tensor,
     num = torch.sum(mask.reshape((b, -1)), dim=1) # [b, ]
 
     delta_1 = delta_1_sum / (num + 1e-10)
+    assert torch.all(delta_1 <= 1)
     delta_2 = delta_2_sum / (num + 1e-10)
     delta_3 = delta_3_sum / (num + 1e-10)
     valid_pics = torch.sum(num > 0)    

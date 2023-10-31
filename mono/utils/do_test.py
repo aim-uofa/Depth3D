@@ -12,11 +12,41 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 from mono.utils.unproj_pcd import reconstruct_pcd, save_point_cloud
+from mono.utils.transform import gray_to_colormap
 
 from mono.utils.lwlr import sparse_depth_lwlr_batch
 
-from scipy.sparse import csr_array
+# from scipy.sparse import csr_array
 from scipy import sparse
+
+img_file_type = ['.png', '.jpg', '.jpeg', '.bmp', '.tif']
+np_file_type = ['.npz', '.npy']
+JPG_file_type = ['.JPG']
+
+def load_data(path: str, is_rgb_img: bool=False):
+    if not osp.exists(path):
+        raise RuntimeError(f'{path} does not exist.')
+
+    data_type = osp.splitext(path)[-1]
+    if data_type in img_file_type:
+        if is_rgb_img:
+            data = cv2.imread(path)
+        else:
+            data = cv2.imread(path, -1)
+    elif data_type in np_file_type:
+        data = np.load(path)
+    elif data_type in JPG_file_type:
+        # NOTE: only support .JPG file depth of ETH3D so far.
+        if is_rgb_img:
+            data = cv2.imread(path)
+        else:
+            f = open(path, 'r')
+            data = np.fromfile(f, np.float32)
+            data = data.reshape((4032, 6048))
+    else:
+        raise RuntimeError(f'{data_type} is not supported in current version.')
+    
+    return data.squeeze()
 
 def to_cuda(data: dict):
     for k, v in data.items():
@@ -317,12 +347,11 @@ def do_scalecano_test_with_custom_data(
     os.makedirs(save_imgs_dir, exist_ok=True)
     save_pcd_dir = show_dir + '/pcd'
     os.makedirs(save_pcd_dir, exist_ok=True)
-    
-    if test_data[0]['depth'] is not None:
-        save_gt_pcd_dir = show_dir + '/gt_pcd'
-        os.makedirs(save_gt_pcd_dir, exist_ok=True)
+    save_gt_pcd_dir = show_dir + '/gt_pcd'
+    os.makedirs(save_gt_pcd_dir, exist_ok=True)
 
     normalize_scale = cfg.data_basic.depth_range[1]
+    cfg.test_metrics = ['abs_rel', 'rmse', 'delta1']
     dam = MetricAverageMeter(cfg.test_metrics)
     dam_median = MetricAverageMeter(cfg.test_metrics)
     dam_global = MetricAverageMeter(cfg.test_metrics)
@@ -338,14 +367,23 @@ def do_scalecano_test_with_custom_data(
         rgb_origin = cv2.imread(an['rgb'])[:, :, ::-1].copy()
         print('rgb_path :', an['rgb'])
         if an['depth'] is not None:
-            if an['depth'].endswith('.npy'):
-                gt_depth = np.load(an['depth'])
-            elif an['depth'].endswith('.npz'):
-                gt_depth = sparse.load_npz(an['depth']).toarray()
-            else:
-                gt_depth = cv2.imread(an['depth'], -1)
+            gt_depth = load_data(an['depth'])
+            # NOTE: 0 for invalid mask of gt_depth_mask
+            if ('depth_mask' in an) and (an['depth_mask'] is not None):
+                gt_depth_mask = load_data(an['depth_mask'])
+                gt_depth_mask = cv2.resize(gt_depth_mask, (gt_depth.shape[1], gt_depth.shape[0]), interpolation=cv2.INTER_NEAREST)
+                gt_depth[gt_depth_mask == 0] = 0
+
+            # if an['depth'].endswith('.npy'):
+            #     gt_depth = np.load(an['depth'])
+            # elif an['depth'].endswith('.npz'):
+            #     gt_depth = sparse.load_npz(an['depth']).toarray()
+            # else:
+            #     gt_depth = cv2.imread(an['depth'], -1)
+
             gt_depth_scale = an['depth_scale']
             gt_depth = gt_depth / gt_depth_scale
+            gt_depth[gt_depth > 65535] = 0 # a causial gt_depth max
             gt_depth_flag = True
         else:
             gt_depth = None
@@ -438,14 +476,21 @@ def do_scalecano_test_with_custom_data(
             os.makedirs(osp.join(save_pcd_dir, an['folder']), exist_ok=True)
             save_point_cloud(pcd.reshape((-1, 3)), rgb_origin.reshape(-1, 3), osp.join(save_pcd_dir, an['folder'], an['filename'][:-4]+'.ply'))
 
-            # gt_pcd
-            gt_depth = gt_depth.detach().cpu().numpy()
-            pcd = reconstruct_pcd(gt_depth, intrinsic[0], intrinsic[1], intrinsic[2], intrinsic[3])
-            os.makedirs(osp.join(save_gt_pcd_dir, an['folder']), exist_ok=True)
-            save_point_cloud(pcd.reshape((-1, 3)), rgb_origin.reshape(-1, 3), osp.join(save_gt_pcd_dir, an['folder'], an['filename'][:-4]+'.ply'))
+            if gt_depth_flag:
+                # gt_pcd
+                gt_depth = gt_depth.detach().cpu().numpy()
+                pcd = reconstruct_pcd(gt_depth, intrinsic[0], intrinsic[1], intrinsic[2], intrinsic[3])
+                os.makedirs(osp.join(save_gt_pcd_dir, an['folder']), exist_ok=True)
+                save_point_cloud(pcd.reshape((-1, 3)), rgb_origin.reshape(-1, 3), osp.join(save_gt_pcd_dir, an['folder'], an['filename'][:-4]+'.ply'))
             
             # npy
             np.save(osp.join(save_imgs_dir, an['folder'], an['filename'][:-4]+'.npy'), pred_depth)
+            
+            # rgb, gt_depth, and pred_depth
+            cv2.imwrite(osp.join(save_imgs_dir, an['folder'], an['filename'][:-4] + '_rgb.png'), rgb_origin[:, :, ::-1])
+            if gt_depth_flag:
+                plt.imsave(osp.join(save_imgs_dir, an['folder'], an['filename'][:-4] + '_gt_depth.png'), gray_to_colormap(gt_depth))
+            plt.imsave(osp.join(save_imgs_dir, an['folder'], an['filename'][:-4] + '_pred_depth.png'), gray_to_colormap(pred_depth))
 
             if gt_depth_flag:
                 eval_error = dam.get_metrics()
@@ -594,6 +639,7 @@ def do_scalecano_test_with_dataloader(
             # eval_error_lwlr = dam_lwlr.get_metrics()
             # print('lwlr match :', eval_error_lwlr)
     
+    logger.info('Final evaluation results:')
     eval_error = dam.get_metrics()
     logger.info('w/o match :' + str(eval_error))
 
@@ -605,6 +651,8 @@ def do_scalecano_test_with_dataloader(
 
     # eval_error_lwlr = dam_lwlr.get_metrics()
     # print('lwlr match :', eval_error_lwlr)
+
+    logger.info('Evaluation finished.')
 
 
 # Generate a double-input depth estimation

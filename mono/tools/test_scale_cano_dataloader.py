@@ -12,6 +12,9 @@ import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
 
+import warnings
+warnings.filterwarnings('ignore')
+
 from mmcv.utils import Config, DictAction
 from datetime import timedelta
 import random

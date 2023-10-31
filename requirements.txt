@@ -13,3 +13,4 @@ imgaug
 iopath
 imagecorruptions
 h5py
+tabulate

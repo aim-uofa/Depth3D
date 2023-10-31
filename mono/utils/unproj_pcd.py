@@ -25,7 +25,7 @@ def get_pcd_base(H, W, u0, v0, fx, fy):
 def reconstruct_pcd(depth, fx, fy, u0, v0, pcd_base=None, mask=None):
     if type(depth) == torch.__name__:
         depth = depth.cpu().numpy().squeeze()
-    depth = cv2.medianBlur(depth, 5)
+    # depth = cv2.medianBlur(depth, 5)
     if pcd_base is None:
         H, W = depth.shape
         pcd_base = get_pcd_base(H, W, u0, v0, fx, fy)

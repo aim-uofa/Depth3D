@@ -8,4 +8,7 @@ input_imgs
 *.pth
 *.pt
 weights
+weights_ablation
 pretrained_weights
+datasets
+demo_data/outputs*

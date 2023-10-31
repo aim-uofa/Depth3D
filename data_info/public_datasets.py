@@ -2,7 +2,7 @@
 data_info = {}
 
 data_info['Taskonomy']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'Taskonomy',
     'semantic_root': 'Taskonomy',
     'meta_data_root': 'Taskonomy',
@@ -13,7 +13,7 @@ data_info['Taskonomy']={
 }
 
 data_info['Lyft']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'lyft',
     'semantic_root': 'lyft',
     'meta_data_root': 'lyft',
@@ -24,7 +24,7 @@ data_info['Lyft']={
 }
 
 data_info['DDAD']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'DDAD',
     'semantic_root': 'DDAD',
     'meta_data_root': 'DDAD',
@@ -35,7 +35,7 @@ data_info['DDAD']={
 }
 
 data_info['DSEC']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'DSEC',
     'semantic_root': 'DSEC',
     'meta_data_root': 'DSEC',
@@ -45,19 +45,8 @@ data_info['DSEC']={
     'val_annotations_path': 'DSEC/DSEC/train_annotation_all_August.json',
 }
 
-data_info['A2D2']={
-    'database_root': '/mnt/nas/share/home/jxr/MetricDepth/',
-    'data_root': 'A2D2',
-    'semantic_root': 'A2D2',
-    'meta_data_root': 'A2D2',
-    'norm_root': 'A2D2',
-    'train_annotations_path': 'A2D2/A2D2/train_annotation_April_all.json',
-    # 'test_annotations_path': 'A2D2/A2D2/train_annotation_April_all.json',
-    'val_annotations_path': 'A2D2/A2D2/train_annotation_April_all.json',
-}
-
 data_info['UASOL']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'UASOL',
     'semantic_root': 'UASOL',
     'meta_data_root': 'UASOL',
@@ -68,7 +57,7 @@ data_info['UASOL']={
 }
 
 data_info['DIML']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'DIML',
     'semantic_root': 'DIML',
     'meta_data_root': 'DIML',
@@ -79,7 +68,7 @@ data_info['DIML']={
 }
 
 data_info['Cityscapes']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'cityscapes',
     'semantic_root': 'cityscapes',
     'meta_data_root': 'cityscapes',
@@ -90,7 +79,7 @@ data_info['Cityscapes']={
 }
 
 data_info['Argovers2']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'argoverse',
     'semantic_root': 'argoverse',
     'meta_data_root': 'argoverse',
@@ -102,7 +91,7 @@ data_info['Argovers2']={
 
 
 data_info['Mapillary_PSD']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'mapillary',
     'semantic_root': 'mapillary',
     'meta_data_root': 'mapillary',
@@ -114,7 +103,7 @@ data_info['Mapillary_PSD']={
 
 
 data_info['Pandaset']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'pandaset',
     'semantic_root': 'pandaset',
     'meta_data_root': 'pandaset',
@@ -125,7 +114,7 @@ data_info['Pandaset']={
 }
 
 data_info['Waymo']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'Waymo',
     'semantic_root': 'Waymo',
     'meta_data_root': 'Waymo',
@@ -136,7 +125,7 @@ data_info['Waymo']={
 }
 
 data_info['Scannet']={
-    'database_root': '/mnt/nas/share/home/xugk/data/',
+    'database_root': './datasets',
     'data_root': 'ScanNet_v2',
     'semantic_root': 'ScanNet_v2',
     'meta_data_root': 'ScanNet_v2',
@@ -147,7 +136,7 @@ data_info['Scannet']={
 }
 
 data_info['TUM']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'TUM',
     'semantic_root': 'TUM',
     'meta_data_root': 'TUM',
@@ -158,7 +147,7 @@ data_info['TUM']={
 }
 
 data_info['Hypersim']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'hypersim',
     'semantic_root': 'hypersim',
     'meta_data_root': 'hypersim',
@@ -169,7 +158,7 @@ data_info['Hypersim']={
 }
 
 data_info['GraspNet']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'graspnet',
     'semantic_root': 'graspnet',
     'meta_data_root': 'graspnet',
@@ -179,7 +168,7 @@ data_info['GraspNet']={
 }
 
 data_info['Tartanair']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'tartanair',
     'semantic_root': 'tartanair',
     'meta_data_root': 'tartanair',
@@ -190,7 +179,7 @@ data_info['Tartanair']={
 }
 
 data_info['AVD']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'AVD',
     'semantic_root': 'AVD',
     'meta_data_root': 'AVD',
@@ -200,7 +189,7 @@ data_info['AVD']={
 }
 
 data_info['BlendedMVS']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'BlendedMVS',
     'semantic_root': 'BlendedMVS',
     'meta_data_root': 'BlendedMVS',
@@ -216,7 +205,7 @@ data_info['BlendedMVS']={
 
 
 data_info['scannet_test']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets/',
 
     'data_root': 'scannet_test',
     'semantic_root': 'scannet_test',
@@ -229,7 +218,7 @@ data_info['scannet_test']={
 }
 
 data_info['KITTI']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets/',
     'data_root': 'kitti',
     'semantic_root': 'kitti',
     'meta_data_root': 'kitti',
@@ -240,7 +229,7 @@ data_info['KITTI']={
 }
 
 data_info['NYU']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets/',
     'data_root': 'nyu',
     'semantic_root': 'nyu',
     'meta_data_root': 'nyu',
@@ -251,7 +240,7 @@ data_info['NYU']={
 }
 
 data_info['SevenScenes']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets/',
     'data_root': '7scenes',
     'semantic_root': '7scenes',
     'meta_data_root': '7scenes',
@@ -262,7 +251,7 @@ data_info['SevenScenes']={
 }
 
 data_info['DIODE']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'diode',
     'semantic_root': 'diode',
     'meta_data_root': 'diode',
@@ -273,7 +262,7 @@ data_info['DIODE']={
 }
 
 data_info['DIODE_indoor']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'diode',
     'semantic_root': 'diode',
     'meta_data_root': 'diode',
@@ -282,7 +271,7 @@ data_info['DIODE_indoor']={
 }
 
 data_info['DIODE_outdoor']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'diode',
     'semantic_root': 'diode',
     'meta_data_root': 'diode',
@@ -291,7 +280,7 @@ data_info['DIODE_outdoor']={
 }
 
 data_info['Nuscenes']={
-    'database_root': '/mnt/nas/share/home/xugk/data/',
+    'database_root': './datasets',
     'data_root': 'nuscenes',
     'semantic_root': 'nuscenes',
     'meta_data_root': 'nuscenes',
@@ -302,7 +291,7 @@ data_info['Nuscenes']={
 }
 
 data_info['ETH3D']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'ETH3D',
     'semantic_root': 'ETH3D',
     'meta_data_root': 'ETH3D',
@@ -311,7 +300,7 @@ data_info['ETH3D']={
 }
 
 data_info['ibims']={
-    'database_root': '/mnt/nas/datasets2/MetricDepth/',
+    'database_root': './datasets',
     'data_root': 'ibims',
     'semantic_root': 'ibims',
     'meta_data_root': 'ibims',
