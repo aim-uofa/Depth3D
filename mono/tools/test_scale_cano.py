@@ -34,8 +34,9 @@ def parse_args():
     parser.add_argument('--nnodes', type=int, default=1, help='number of nodes')
     parser.add_argument('--options', nargs='+', action=DictAction, help='custom options')
     parser.add_argument('--launcher', choices=['None', 'pytorch', 'slurm', 'mpi', 'ror'], default='slurm', help='job launcher')
-    parser.add_argument('--test_anno_path', default='./test_images/image_sunny', type=str, help='the path of test data')
+    parser.add_argument('--test_anno_path', default=None, type=str, help='the path of test data')
     parser.add_argument('--data_root', type=str, help='the data_root of test annotation path', default='')
+    parser.add_argument('--in_the_wild_rgb_folder', default=None, type=str, help='the path of test data')
     args = parser.parse_args()
     return args
 
@@ -89,10 +90,30 @@ def main(args):
     # dump config 
     cfg.dump(osp.join(cfg.show_dir, osp.basename(args.config)))
     test_anno_path = args.test_anno_path
-    if not os.path.isabs(test_anno_path):
-        test_anno_path = osp.join(CODE_SPACE, test_anno_path)
+    in_the_wild_rgb_folder = args.in_the_wild_rgb_folder
 
-    test_data = load_from_annos(test_anno_path, args.data_root)
+    if (test_anno_path is not None) and (args.data_root is not None):
+        if not os.path.isabs(test_anno_path):
+            test_anno_path = osp.join(CODE_SPACE, test_anno_path)
+        test_data = load_from_annos(test_anno_path, args.data_root)
+    elif in_the_wild_rgb_folder is not None:
+        test_data = []
+        for rgb_name in sorted(os.listdir(in_the_wild_rgb_folder)):
+            rgb = osp.join(in_the_wild_rgb_folder, rgb_name)
+            image = cv2.imread(rgb)
+            test_data_i = {
+                'rgb': rgb,
+                'depth': None,
+                'depth_mask': None,
+                'norm': None,
+                'depth_scale': 1.0,
+                'intrinsic': [1000, 1000, image.shape[0]/2, image.shape[1]/2],
+                'filename': os.path.basename(rgb),
+                'folder': rgb.split('/')[-2],
+            }
+            test_data.append(test_data_i)
+    else:
+        raise ValueError("Input args of either --test_anno_path or --in_the_wild_rgb_folder")
     
     """
     # NOTE: you can also change rgb_paths, intrinsic, depth_paths, and depth_scale here straightforwardly. Here is an example of scannet
