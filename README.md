@@ -82,8 +82,11 @@ dict(
 )
 ```
 
-# Reproduction of Technical Report
-Run scripts of ```Depth3D/scripts/technical_report```. For example. if you would like to reproduce the Table 3, run this commmand: ```python scripts/technical_report/run_table3.py```. It will take hours of time to output the final results. See ```scripts/technical_report/README_reproduction.md``` for details
+# Reproducing the Results of the Report
+Run scripts of ```Depth3D/scripts/technical_report```. 
+For example. if you would like to reproduce the Table 3, run this commmand: ```python scripts/technical_report/run_table3.py```. It will take hours of time to output the final results.
+
+See ```scripts/technical_report/README.md``` for details
 
 # Evaluation of a Specific Dataset with Dataloader
 ```bash
