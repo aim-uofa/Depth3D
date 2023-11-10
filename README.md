@@ -113,14 +113,16 @@ If you would like to evaluate on a customized dataset, let's take ```"demo_data"
 ```python
 dict(
 	'files': [
-		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'demo_data/rgb/xxx.png', 'depth': 'demo_data/gt_depth/xxx.npy', 'depth_scale': 1.0, (optional) 'depth_mask': 'demo_data/gt_depth_mask/xxx.npy'), 
-		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'demo_data/rgb/xxx.png', 'depth': 'demo_data/gt_depth/xxx.png', 'depth_scale': 256.0, (optional) 'depth_mask': null), 
-		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'demo_data/rgb/xxx.png', 'depth': 'demo_data/gt_depth/xxx.png', 'depth_scale': 1000.0, (optional) 'depth_mask': null), 
+		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'demo_data/rgb/xxx.png', (optional) 'depth': 'demo_data/gt_depth/xxx.npy', (optional) 'depth_scale': 1.0, (optional) 'depth_mask': 'demo_data/gt_depth_mask/xxx.npy'), 
+		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'demo_data/rgb/xxx.png', (optional) 'depth': 'demo_data/gt_depth/xxx.png', (optional) 'depth_scale': 256.0, (optional) 'depth_mask': null), 
+		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'demo_data/rgb/xxx.png', (optional) 'depth': 'demo_data/gt_depth/xxx.png', (optional) 'depth_scale': 1000.0, (optional) 'depth_mask': null), 
 		...
 	]
 )
 ```
-See ```Depth3D/demo_data/test_annotations.json``` for details. We store the relative file path in the annotation. For example, if the RGB file path is ```/mnt/nas/share/home/xugk/Depth3D/demo_data/rgb/0016028039294718_b.jpg```, we save the relative path ```demo_data/rgb/0016028039294718_b.jpg```, and set parameters ```"$DATA_ROOT"``` to ```"/mnt/nas/share/home/xugk/Depth3D/"```(See step 2 below).
+See ```Depth3D/demo_data/test_annotations.json``` for details. The ```depth``` and ```depth_scale``` are necessary if evaluation is expected. The ```depth_scale``` stands for the depth scale ratio of depth image. The ```depth_mask``` is used to filter out invalid depth regions, with 0 for invalid regions and others for valid regions.
+
+We store the relative file path in the annotation. For example, if the RGB file path is ```/mnt/nas/share/home/xugk/Depth3D/demo_data/rgb/0016028039294718_b.jpg```, we save the relative path ```demo_data/rgb/0016028039294718_b.jpg```, and set parameters ```"$DATA_ROOT"``` to ```"/mnt/nas/share/home/xugk/Depth3D/"```(See step 2 below).
 
 2. Inference with this script:
 ```bash
