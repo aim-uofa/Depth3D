@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument('--options', nargs='+', action=DictAction, help='custom options')
     parser.add_argument('--launcher', choices=['None', 'pytorch', 'slurm', 'mpi', 'ror'], default='slurm', help='job launcher')
     parser.add_argument('--test_anno_path', default=None, type=str, help='the path of test data')
-    parser.add_argument('--data_root', type=str, help='the data_root of test annotation path', default='')
+    parser.add_argument('--data_root', type=str, default=None, help='the data_root of test annotation path')
     parser.add_argument('--in_the_wild_rgb_folder', default=None, type=str, help='the path of test data')
     args = parser.parse_args()
     return args
@@ -92,9 +92,11 @@ def main(args):
     test_anno_path = args.test_anno_path
     in_the_wild_rgb_folder = args.in_the_wild_rgb_folder
 
-    if (test_anno_path is not None) and (args.data_root is not None):
+    if (test_anno_path is not None):
         if not os.path.isabs(test_anno_path):
             test_anno_path = osp.join(CODE_SPACE, test_anno_path)
+        if args.data_root is None:
+            args.data_root = ''
         test_data = load_from_annos(test_anno_path, args.data_root)
     elif in_the_wild_rgb_folder is not None:
         test_data = []

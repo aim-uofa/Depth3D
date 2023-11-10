@@ -10,12 +10,18 @@ def load_from_annos(anno_path, data_root=''):
 
     datas = []
     for i, anno in enumerate(annos):
-        rgb = osp.join(data_root, anno['rgb'])
-        depth = osp.join(data_root, anno['depth']) if (('depth' in anno) and (anno['depth'] is not None)) else None
-        depth_mask = osp.join(data_root, anno['depth_mask']) if (('depth_mask' in anno) and (anno['depth_mask'] is not None)) else None
-        norm = osp.join(data_root, anno['norm']) if (('norm' in anno) and (anno['norm'] is not None)) else None
+
+        rgb = anno['rgb']
+        depth = anno['depth'] if (('depth' in anno) and (anno['depth'] is not None)) else None
+        depth_mask = anno['depth_mask'] if (('depth_mask' in anno) and (anno['depth_mask'] is not None)) else None
+        norm = anno['norm'] if (('norm' in anno) and (anno['norm'] is not None)) else None
         depth_scale = anno['depth_scale'] if 'depth_scale' in anno else 1.0
         intrinsic = anno['cam_in'] if 'cam_in' in anno else None
+
+        rgb = osp.join(data_root, rgb)
+        depth = osp.join(data_root, depth) if (depth is not None) else None
+        depth_mask = osp.join(data_root, depth_mask) if (depth_mask is not None) else None
+        norm = osp.join(data_root, norm) if (norm is not None) else None
 
         data_i = {
             'rgb': rgb,

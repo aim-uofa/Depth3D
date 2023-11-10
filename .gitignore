@@ -12,3 +12,4 @@ weights_ablation
 pretrained_weights
 datasets
 demo_data/outputs*
+outputs*
