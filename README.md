@@ -1,107 +1,23 @@
 # Depth3D
 
-## Install
-```bash
-conda create -n Depth3D python=3.7
-conda activate Depth3D
-pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip install -r requirements.txt
-pip install -U openmim
-mim install mmengine
-mim install "mmcv-full==1.3.17"
-pip install yapf==0.40.1
-```
+## Dataset and Weight Downlaod
+Download all the folders including ```datasets```, ```weights```, ```pretrained_weights```, ```weights_ablation```, and place them under ```Depth3D/```. The download link is as follows:
 
-### For 40 Series GPUs
-```bash
-conda create -n Depth3D python=3.8
-conda activate Depth3D
-pip install torch==2.0.0 torchvision==0.15.1
-pip install -r requirements.txt
-pip install -U openmim
-mim install mmengine
-mim install "mmcv-full==1.7.1"
-pip install yapf==0.40.1
-```
+Baidu Netdisk: ```链接: https://pan.baidu.com/s/1ISB0kOooYz5QMttmHAd5cA?pwd=qr8q 提取码: qr8q```
 
+### The components of each folder
+1. The ```datasets``` contains test datasets of Depth3D.
+2. The ```weights``` contains our released depth estimation models of BEiT, ConvNext, and Swin2.
+3. The ```pretrained_weights``` contains weights for pre-training. They are loaded while running our training scripts.
+4. The ```weights_ablation``` contains weights for ablaiton study.
 
-
-# Dataset Components
-We offer the test split of datasets with the Baidu Netdisk share link.
-
-## Data Structure
-We use the *_annotation.json files to store the camera intrinsic information and the paths of rgb, depth, etc. The data structure is as follows:
-
-```
-- Taskonomy
-	- Taskonomy
-		- (optional) meta # save the pickle files, see 'Format 1' for details
-		- rgb
-		- depth
-		- (optional) sem
-		- (optional) normal
-	- test_annotation.json # test annotation file
-	- train_annotation.json # train annotation file
-```
-## Format 1
-The format of *_annotation.json files：
-```
-dict(
-	'files': [
-		dict('meta_data': 'Taskonomy/xxx/xxx.pkl'),
-		dict('meta_data': 'Taskonomy/xxx/xxx.pkl'),
-		dict('meta_data': 'Taskonomy/xxx/xxx.pkl'),
-		...
-	]
-)
-```
-
-
-
-The format of 'xxx.pkl'：
-```
-dict(
-	'cam_in': [fx, fy, cx, cy],
-	'rgb': 'Taskonomy/rgb/xxx.png',
-	'depth': 'Taskonomy/depth/xxx.png',
-	(optional) 'sem': 'Taskonomy/sem/xxx.png'
-	(optional) 'normal': 'Taskonomy/norm/xxx.png',
-)
-```
-
-## Format 2
-The format of *_annotation.json files：
-```
-dict(
-	'files': [
-		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'Taskonomy/rgb/xxx.png', 'depth': 'Taskonomy/depth/xxx.png', (optional) 'sem': 'Taskonomy/sem/xxx.png', (optional) 'normal': 'Taskonomy/norm/xxx.png'),
-		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'Taskonomy/rgb/xxx.png', 'depth': 'Taskonomy/depth/xxx.png', (optional) 'sem': 'Taskonomy/sem/xxx.png', (optional) 'normal': 'Taskonomy/norm/xxx.png'),
-		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'Taskonomy/rgb/xxx.png', 'depth': 'Taskonomy/depth/xxx.png', (optional) 'sem': 'Taskonomy/sem/xxx.png', (optional) 'normal': 'Taskonomy/norm/xxx.png'),
-		...
-	]
-)
-```
-
-# Reproducing the Results of the Report
-Run scripts of ```Depth3D/scripts/technical_report```. 
+## Reproducing the Results of the Report
+The technical report is avaliable in ```Depth3D/technical_report_v1.1.pdf```
+To reproduce the results, please run the scripts of ```Depth3D/scripts/technical_report```. 
 For example. if you would like to reproduce the Table 3, run this commmand: ```python scripts/technical_report/run_table3.py```. It will take hours of time to output the final results.
+See ```scripts/technical_report/README.md``` for details.
 
-See ```scripts/technical_report/README.md``` for details
-
-# Evaluation of a Specific Dataset with Dataloader
-```bash
-source scripts/test/beit/test_beit_nyu.sh # change the config file if required.
-```
-
-if you would like to evaluate on a new datasets:
-
-1. generate test annotations following ```'dataset components'```.
-2. add annotation path in ```data_info/public_datasets.py```.
-3. write the config file and Dataset.
-4. change the config files in test_beit_nyu.sh.
-
-
-# Structure of Code
+## Structure of Code
 ```bash
 - Depth3D
 	- data_info
@@ -142,4 +58,94 @@ if you would like to evaluate on a new datasets:
 	- weights_ablation # place our released depth models of ablation study here.
 	- work_dirs # output folder of training.
 ```
+
+
+## Installation
+```bash
+conda create -n Depth3D python=3.7
+conda activate Depth3D
+pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+pip install -r requirements.txt
+pip install -U openmim
+mim install mmengine
+mim install "mmcv-full==1.3.17"
+pip install yapf==0.40.1
+```
+
+### For 40 Series GPUs
+```bash
+conda create -n Depth3D python=3.8
+conda activate Depth3D
+pip install torch==2.0.0 torchvision==0.15.1
+pip install -r requirements.txt
+pip install -U openmim
+mim install mmengine
+mim install "mmcv-full==1.7.1"
+pip install yapf==0.40.1
+```
+
+## Dataset Structure
+We use the *_annotation.json files to store the camera intrinsic information and the paths of rgb, depth, etc. The data structure is as follows:
+
+```
+- Taskonomy
+	- Taskonomy
+		- (optional) meta # save the pickle files, see 'Format 1' for details
+		- rgb
+		- depth
+		- (optional) sem
+		- (optional) normal
+	- test_annotation.json # test annotation file
+	- train_annotation.json # train annotation file
+```
+### Format 1
+The format of *_annotation.json files：
+```
+dict(
+	'files': [
+		dict('meta_data': 'Taskonomy/xxx/xxx.pkl'),
+		dict('meta_data': 'Taskonomy/xxx/xxx.pkl'),
+		dict('meta_data': 'Taskonomy/xxx/xxx.pkl'),
+		...
+	]
+)
+```
+
+
+
+The format of 'xxx.pkl'：
+```
+dict(
+	'cam_in': [fx, fy, cx, cy],
+	'rgb': 'Taskonomy/rgb/xxx.png',
+	'depth': 'Taskonomy/depth/xxx.png',
+	(optional) 'sem': 'Taskonomy/sem/xxx.png'
+	(optional) 'normal': 'Taskonomy/norm/xxx.png',
+)
+```
+
+### Format 2
+The format of *_annotation.json files：
+```
+dict(
+	'files': [
+		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'Taskonomy/rgb/xxx.png', 'depth': 'Taskonomy/depth/xxx.png', (optional) 'sem': 'Taskonomy/sem/xxx.png', (optional) 'normal': 'Taskonomy/norm/xxx.png'),
+		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'Taskonomy/rgb/xxx.png', 'depth': 'Taskonomy/depth/xxx.png', (optional) 'sem': 'Taskonomy/sem/xxx.png', (optional) 'normal': 'Taskonomy/norm/xxx.png'),
+		dict('cam_in': [fx, fy, cx, cy], 'rgb': 'Taskonomy/rgb/xxx.png', 'depth': 'Taskonomy/depth/xxx.png', (optional) 'sem': 'Taskonomy/sem/xxx.png', (optional) 'normal': 'Taskonomy/norm/xxx.png'),
+		...
+	]
+)
+```
+
+## Evaluation of a Specific Dataset with Dataloader
+```bash
+source scripts/test/beit/test_beit_nyu.sh # change the config file if required.
+```
+
+if you would like to evaluate on a new datasets:
+
+1. generate test annotations following ```'dataset components'```.
+2. add annotation path in ```data_info/public_datasets.py```.
+3. write the config file and Dataset.
+4. change the config files in test_beit_nyu.sh.
 

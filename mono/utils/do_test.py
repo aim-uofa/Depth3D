@@ -507,6 +507,8 @@ def do_scalecano_test_with_custom_data(
 
             else:
                 print('missing gt_depth, only save visualizations...')
+    
+    logger.info('Evaluation finished.')
 
 
 def do_scalecano_test_with_dataloader(
