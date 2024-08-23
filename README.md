@@ -5,7 +5,7 @@ Depth3D aims at robust monocular metric depth estimation on zero-shot testing im
 ## Dataset and Weight Download
 Download all the folders including ```datasets```, ```weights```, ```pretrained_weights```, ```weights_ablation```, and place them under ```Depth3D/```. The download link is as follows:
 
-Baidu Netdisk: ```链接: https://pan.baidu.com/s/1ISB0kOooYz5QMttmHAd5cA?pwd=qr8q 提取码: qr8q```
+Baidu Netdisk: ```链接(Download link): https://pan.baidu.com/s/1ISB0kOooYz5QMttmHAd5cA?pwd=qr8q 提取码(Passcode): qr8q```
 
 ### The Components of Each Folder
 ```bash
